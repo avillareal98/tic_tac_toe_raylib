@@ -4,5 +4,5 @@
 / Use a texture asset
 / Analyze Win-checking (Tricky?)
 / Build with Win-checking
-- Fix the game timer
-- Add a tied game state
+/ Fix the game timer
+/ Add a tied game state
