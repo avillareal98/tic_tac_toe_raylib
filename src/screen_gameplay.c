@@ -77,7 +77,6 @@ typedef enum GameState
 {
     PLAYERX,
     PLAYERO,
-    PLAYERDRAW,
     END
 } GameState;
 
@@ -86,6 +85,9 @@ CellValue winner;
 
 float timeGameStarted;
 float timeGameEnded;
+
+int scoreX;
+int scoreO;
 
 void CellDraw(Cell);
 bool IndexIsValid(int, int);
@@ -105,6 +107,9 @@ void InitGameplayScreen(void)
     framesCounter = 0;
     finishScreen = 0;
 
+    scoreX = 0;
+    scoreO = 0;
+
     atlas = LoadTexture("resources/tictactoe.png");
 
     GameInit();
@@ -114,6 +119,7 @@ void InitGameplayScreen(void)
 void UpdateGameplayScreen(void)
 {
     // TODO: Update GAMEPLAY screen variables here!
+
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         Vector2 mPos = GetMousePosition();
@@ -131,9 +137,18 @@ void UpdateGameplayScreen(void)
                     {
                         state = END;
                     }
+                    timeGameEnded = GetTime();
                 }
                 else
                 {
+                    if (state == PLAYERX)
+                    {
+                        scoreX++;
+                    }
+                    else
+                    {
+                        scoreO++;
+                    }
                     state = END;
                 }
                 PlaySound(digSound);
@@ -143,6 +158,7 @@ void UpdateGameplayScreen(void)
 
     if (state == END && IsKeyPressed(KEY_R))
     {
+        timeGameEnded = GetTime();
         GameInit();
     }
 }
@@ -158,6 +174,10 @@ void DrawGameplayScreen(void)
             CellDraw(grid[i][j]);
         }
     }
+
+    DrawText(TextFormat("X: %d", scoreX), 0, 0, 30, DARKGRAY);
+    DrawText(TextFormat("O: %d", scoreO), 400, 0, 30, DARKGRAY);
+
     if (state == END)
     {
         const char* text;
@@ -245,7 +265,6 @@ bool CellMark(int i, int j, CellValue value)
 
     grid[i][j].value = value;
     tilesOccupied++;
-    printf("check: %d \n", (int)tilesOccupied);
 
     return true;
 }

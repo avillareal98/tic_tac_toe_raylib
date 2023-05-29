@@ -68,12 +68,12 @@ int main(void)
     loseSound = LoadSound("resources/explosion.wav");
     winSound = LoadSound("resources/win.wav");
 
-    /*SetMusicVolume(music, 1.0f);
-    PlayMusicStream(music);*/
+    SetMusicVolume(music, 1.0f);
+    PlayMusicStream(music);
 
     // Setup and init first screen
-    currentScreen = GAMEPLAY;
-    InitGameplayScreen();
+    currentScreen = LOGO;
+    InitLogoScreen();
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
